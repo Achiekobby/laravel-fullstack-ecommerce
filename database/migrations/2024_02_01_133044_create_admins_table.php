@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string("phone_number")->unique()->nullable();
+            $table->string("status")->default("active");
             $table->enum("role",["admin","super_admin"])->default("admin");
             $table->string('password');
             $table->rememberToken();

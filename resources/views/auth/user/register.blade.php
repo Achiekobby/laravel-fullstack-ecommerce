@@ -35,7 +35,7 @@
                                             <input type="text" required="" name="email" placeholder="Email">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" id="phone" required="" name="phone_number" placeholder="Phone Number(0243000000)" style="width: 100%;">
+                                            <input type="tel" id="phone" required="" name="phone_number" placeholder="Phone Number(0243000000)" style="width: 100%;">
                                         </div>
                                         <div class="form-group">
                                             <input required="" type="password" name="password" placeholder="Password">
@@ -61,7 +61,7 @@
                                                 name="login">Submit &amp; Register</button>
                                         </div>
                                     </form>
-                                    <div class="text-muted text-center">Already have an account? <a href="{{route('guest.login')}}">Sign in
+                                    <div class="text-muted text-center">Already have an account? <a href="{{route('login')}}">Sign in
                                             now</a></div>
                                 </div>
                             </div>

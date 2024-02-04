@@ -37,5 +37,8 @@ return [
         "brands"        =>env("APP_URL").config('global.brands'),
         "categories"    =>env("APP_URL").config('global.categories'),
     ],
+    "urls"=>[
+        'app_url'=>env('APP_URL')."/admin/login"
+    ]
 
 ];

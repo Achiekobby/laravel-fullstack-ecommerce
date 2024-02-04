@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Notifications\Auth\EmailVerificationNotification;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Keygen\Keygen;
+
 
 class UserAuthenticationController extends Controller
 {
@@ -36,7 +40,8 @@ class UserAuthenticationController extends Controller
             ]);
 
             //* create an entry in the User table
-            User::query()->create([
+            $verification_code = Keygen::numeric(5)->generate();
+            $user = User::query()->create([
                 "uuid" => Str::uuid(),
                 "first_name" => $request->first_name,
                 "last_name" => $request->last_name,
@@ -45,7 +50,16 @@ class UserAuthenticationController extends Controller
                 "email" => $request->email,
                 "password" => Hash::make($request->password),
                 "remember_token" => Str::random(10),
+                "email_verification_code" => $verification_code,
             ]);
+
+            //* verification data
+            $verification_data = [
+                "name" => request()->first_name,
+                "code" => $verification_code,
+            ];
+            //* dispatch the email
+            $user->notify(new EmailVerificationNotification($verification_data));
 
             //* authenticate the user
             $credentials = $request->only(['email', 'password']);
@@ -81,6 +95,48 @@ class UserAuthenticationController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('login')->with('error', $e->getMessage());
         }
+    }
+
+    public function email_verification()
+    {
+        return view('auth.user.verify_email');
+    }
+
+    public function verify_email($uuid)
+    {
+
+        $now = Carbon::now()->format('Y-m-d H:i:s');
+
+        $verification = User::where("uuid", $uuid)->update(['email_verified_at' => $now()]);
+
+        if ($verification) {
+            return redirect()->intended('/home');
+        }
+        return redirect()->route('email.verification')->with('error', 'Verification failed');
+    }
+
+    public function resend_verification_code()
+    {
+        $user = Auth::guard('user')->user();
+        if (!$user) {
+            return redirect()->route('email.verification')->with('error', 'Please you must be logged in to access this feature');
+        }
+
+        $verification_code = Keygen::numeric(5)->generate();
+
+        //* verification_data
+        $verification_data = [
+            'name' => $user->first_name,
+            "code" => $verification_code,
+        ];
+
+        //* dispatch the email
+        $user->notify(new EmailVerificationNotification($verification_data));
+
+        //* update the db after the email dispatch is effected
+        User::query()->where('uuid', $user->uuid)->update(['email_verification_code' => $verification_code]);
+
+        return redirect()->route('email.verification')->with('success', 'Verification code has been resent');
     }
 
     public function logout()

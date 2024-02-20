@@ -147,7 +147,7 @@
                         <h4 class="card-title mb-0">
                             Recently Added Products
                         </h4>
-                        <div class="dropdown">
+                        {{-- <div class="dropdown">
                             <a href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false" class="dropset">
                                 <i class="fa fa-ellipsis-v"></i>
                             </a>
@@ -159,29 +159,31 @@
                                     <a href="#" class="dropdown-item">Product Add</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="card-body">
                         <div class="table-responsive dataview">
                             <table class="table datatable">
                                 <thead>
                                     <tr>
-                                        <th>Sno</th>
-                                        <th>Products</th>
-                                        <th>Price</th>
+                                        <th>Product</th>
+                                        <th>Regular-Price</th>
+                                        <th>Sales-Price</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($recent_products as $product)
                                     <tr>
-                                        <td>1</td>
                                         <td class="productimgname">
-                                            <a href="productlist.html" class="product-img">
-                                                <img src="{{asset('admin/assets/img/product/product22.jpg')}}" alt="product" />
+                                            <a href="{{route('admin.product.show',['slug'=>$product->slug])}}" class="product-img">
+                                                <img src="{{asset('uploads/products/'.$product->photos["image_one"])}}" alt="{{$product->name}}" />
                                             </a>
-                                            <a href="productlist.html">Apple Earpods</a>
+                                            <a href="{{route('admin.product.show',['slug'=>$product->slug])}}">{{substr(\Illuminate\Support\Str::title($product->name),0,10)."..."}}</a>
                                         </td>
-                                        <td>$891.2</td>
+                                        <td>GHS.{{$product->regular_price}}</td>
+                                        <td>GHS.{{$product->sales_price}}</td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

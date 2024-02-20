@@ -10,8 +10,14 @@
 <script src="{{asset('admin/assets/js/bootstrap.bundle.min.js')}}"></script>
 
 <script src="{{asset('admin/assets/plugins/apexchart/apexcharts.min.js')}}"></script>
+
 <script src="{{asset('admin/assets/plugins/apexchart/chart-data.js')}}"></script>
 
 <script src="{{asset('admin/assets/js/script.js')}}"></script>
+
+<script src="{{asset('admin/assets/plugins/owlcarousel/owl.carousel.min.js')}}"></script>
+
+<script src="{{asset('admin/assets/plugins/select2/js/select2.min.js')}}"></script>
+
 </body>
 </html>

@@ -33,6 +33,16 @@
 
         <link
             rel="stylesheet"
+            href="{{asset('admin/assets/plugins/select2/css/select2.min.css')}}"
+        />
+
+        <link
+            rel="stylesheet"
+            href="{{asset('admin/assets/plugins/owlcarousel/owl.carousel.min.css')}}"
+        /
+
+        <link
+            rel="stylesheet"
             href="{{asset('admin/assets/plugins/fontawesome/css/fontawesome.min.css')}}"
         />
         <link
@@ -41,6 +51,8 @@
         />
 
         <link rel="stylesheet" href="{{asset('admin/assets/css/style.css')}}" />
+        {{-- <script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script> --}}
+
     </head>
     <body>
         <div id="global-loader">

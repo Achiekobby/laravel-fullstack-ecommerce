@@ -12,29 +12,29 @@
                     <span class="menu-arrow"></span></a>
                 <ul>
                     <li>
-                        <a href="productlist.html">Product List</a>
+                        <a href="{{route('admin.products')}}">Product List</a>
                     </li>
                     <li>
-                        <a href="addproduct.html">Add Product</a>
+                        <a href="{{route('admin.product.add')}}">Add Product</a>
                     </li>
                     <li>
-                        <a href="categorylist.html">Category List</a>
+                        <a href="{{route('admin.categories')}}">Category List</a>
                     </li>
                     <li>
-                        <a href="addcategory.html">Add Category</a>
+                        <a href="{{route('admin.category.add')}}">Add Category</a>
                     </li>
                     <li>
-                        <a href="subcategorylist.html">Sub Category List</a>
+                        <a href="{{route('admin.subcategories')}}">Sub Category List</a>
                     </li>
                     <li>
-                        <a href="subaddcategory.html">Add Sub Category</a>
+                        <a href="{{route('admin.subcategory.add')}}">Add Sub Category</a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="brandlist.html">Brand List</a>
                     </li>
                     <li>
                         <a href="addbrand.html">Add Brand</a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
             <li class="submenu">
@@ -78,7 +78,7 @@
                         <span class="menu-arrow"></span></a>
                     <ul>
                         <li>
-                            <a href="newuser.html">New User </a>
+                            <a href="{{route('admin.user.add')}}">New User </a>
                         </li>
                         <li>
                             <a href="{{ route('admin.users') }}">Users List</a>
@@ -111,6 +111,12 @@
                         <a href="taxrates.html">Tax Rates</a>
                     </li>
                 </ul>
+            </li>
+            <hr>
+            <li>
+                <a class="btn btn-primary text-white" href="{{ route('home.index') }}"><img src="{{ asset('admin/assets/img/icons/time.svg') }}"
+                        alt="img" /><span class="text-white"> Visit Ecom Client</span>
+                </a>
             </li>
         </ul>
     </div>

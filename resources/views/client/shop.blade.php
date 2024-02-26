@@ -171,7 +171,7 @@
                         </div>
                     </div>
                     @foreach ($products as $product)
-                        @include('client.blade_helpers.item', ['product' => $product]);
+                        @include('client.blade_helpers.item', ['product' => $product])
                     @endforeach
                     <div class="col-12">
                         <nav>

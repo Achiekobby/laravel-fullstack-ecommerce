@@ -37,7 +37,7 @@
         <!-- Customized Bootstrap Stylesheet -->
         <link href="{{asset('alt_asset/css/style.css')}}" rel="stylesheet" />
         <link rel="stylesheet" href="{{ asset('admin/assets/plugins/toastr/toatr.css') }}" />
-F
+
     </head>
 
     <body>

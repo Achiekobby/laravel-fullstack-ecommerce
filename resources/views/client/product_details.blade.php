@@ -51,13 +51,13 @@
                         <small class="pt-1">(99 Reviews)</small>
                     </div>
                     <div class="d-flex align-items-center justify-content-start mt-2">
-                        @if ($product->sales_price !== 0 || !is_null($product->sales_price))
+                        @if ($product->sales_price !== "0.00" && !is_null($product->sales_price))
                             <h3>GHS.{{ $product->sales_price }}</h3>
                         @else
                             <h3>GHS.{{ $product->regular_price }}</h3>
                         @endif
                         <h4 class="text-muted ml-2">
-                            @if ($product->sales_price !== 0 || !is_null($product->sales_price))
+                            @if ($product->sales_price !== "0.00" && !is_null($product->sales_price))
                                 <del>GHS.{{ $product->regular_price }}</del>
                             @endif
                         </h4>

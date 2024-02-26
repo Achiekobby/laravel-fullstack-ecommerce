@@ -36,7 +36,7 @@ class CartController extends Controller
 
             $new_cart_item = DB::transaction(function() use($user, $prev_total_amount, $prev_total_items){
                 $product = Product::query()->where('id',request()->product_id)->first();
-                $item_amount = $product->sales_price ==0.00 ? $product->regular_amount : $product->sales_price;
+                $item_amount = $product->sales_price ==="0.00" ? $product->regular_price : $product->sales_price;
 
                 $cart = Cart::query()->updateOrCreate(
                     [
@@ -148,7 +148,7 @@ class CartController extends Controller
 
             //?compute item amount
             $item_amount = 0;
-            if($cart_item->sales_price!==0){
+            if($cart_item->sales_price!=="0.00"){
                 $item_amount = $cart_item->sales_price * $cart_item->quantity;
             }
             else{
@@ -165,6 +165,8 @@ class CartController extends Controller
                     'total_items'=>$total_items_left,
                     'total_amount'=>$amount_left,
                 ]);
+
+                $cart->cartItems()->where('product_id',$item_id)->delete();
             }
             return redirect()->back()->with('success','Item has been successfully removed from cart');
         }catch(\Exception $e){

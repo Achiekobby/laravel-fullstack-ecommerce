@@ -1,12 +1,12 @@
 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-    <div class="product-item bg-light mb-4" style="height: 90%;">
-        <div class="product-img position-relative overflow-hidden" style="height: 80%">
+    <div class="product-item bg-light mb-4 d-flex flex-column justify-content-between" style="height: 100%;">
+        <div class="product-img position-relative overflow-hidden" >
             <img class="img-fluid w-100" style="object-fit: contain;"
                 src="{{ asset('/uploads/products/' . $product->photos['image_one']) }}"
                 alt="{{ $product->name }}" />
             <div class="product-action">
-                <a class="btn btn-outline-dark btn-square" href=""><i
-                        class="fa fa-shopping-cart"></i></a>
+                {{-- <a class="btn btn-outline-dark btn-square" href="{{route('')}}"><i
+                        class="fa fa-shopping-cart"></i></a> --}}
                 <a class="btn btn-outline-dark btn-square" href=""><i
                         class="far fa-heart"></i></a>
                 <a class="btn btn-outline-dark btn-square" href=""><i
@@ -18,13 +18,13 @@
         <div class="text-center py-4">
             <a class="h6 text-decoration-none text-truncate" href="{{route('shop.product.show',['slug'=>$product->slug])}}">{{ $product->name }}</a>
             <div class="d-flex align-items-center justify-content-center mt-2">
-                @if ($product->sales_price !== 0 || !is_null($product->sales_price))
+                @if ($product->sales_price !=="0.00")
                     <h5>GHS.{{ $product->sales_price }}</h5>
                 @else
                     <h5>GHS.{{ $product->regular_price }}</h5>
                 @endif
                 <h6 class="text-muted ml-2">
-                    @if ($product->sales_price !== 0 || !is_null($product->sales_price))
+                    @if ($product->sales_price !== "0.00" && !is_null($product->sales_price))
                         <del>GHS.{{ $product->regular_price }}</del>
                     @endif
                 </h6>

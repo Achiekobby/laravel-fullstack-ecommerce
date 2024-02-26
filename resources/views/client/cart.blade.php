@@ -47,11 +47,12 @@
                                     <td class="align-middle">GHS. {{ $item->item_price }}</td>
                                     @php
                                         $discount_percentage = $item->discount;
+                                        echo gettype($discount_percentage);
                                         $total = $item->item_price;
                                         $discount = 0;
-                                        if ($discount_percentage == 0) {
-                                            $discount = 0;
-                                            $total = $item->price * $item->quantity;
+                                        if ($discount_percentage === "0") {
+                                            $discount = "0.00";
+                                            $total = number_format((float)($item->item_price * $item->quantity),2,'.','');
                                         } else {
                                             $discount = number_format((float) ($item->item_price - $item->sales_price), 2, '.', '');
                                             $total = number_format((float) (($item->item_price - $discount) * $item->quantity), 2, '.', '');
@@ -83,8 +84,6 @@
                                 </tr>
                             @endforeach
                     @endif
-
-
                     </tbody>
                 </table>
             </div>

@@ -51,13 +51,13 @@
                         <small class="pt-1">(99 Reviews)</small>
                     </div>
                     <div class="d-flex align-items-center justify-content-start mt-2">
-                        @if ($product->sales_price !== "0.00" && !is_null($product->sales_price))
+                        @if ($product->sales_price !== '0.00' && !is_null($product->sales_price))
                             <h3>GHS.{{ $product->sales_price }}</h3>
                         @else
                             <h3>GHS.{{ $product->regular_price }}</h3>
                         @endif
                         <h4 class="text-muted ml-2">
-                            @if ($product->sales_price !== "0.00" && !is_null($product->sales_price))
+                            @if ($product->sales_price !== '0.00' && !is_null($product->sales_price))
                                 <del>GHS.{{ $product->regular_price }}</del>
                             @endif
                         </h4>
@@ -252,15 +252,9 @@
             <span class="bg-secondary pr-3">You May Also Like</span>
         </h2>
         <div class="row px-xl-5">
-            <div class="col">
-                <div class="owl-carousel related-carousel">
-                    {{-- 6 related products --}}
-                    @foreach ($related_products as $product)
-                        @include('client.blade_helpers.item', ['product' => $product])
-                    @endforeach
-
-                </div>
-            </div>
+            @foreach ($related_products as $product)
+                @include('client.blade_helpers.item', ['product' => $product])
+            @endforeach
         </div>
     </div>
     <!-- Products End -->

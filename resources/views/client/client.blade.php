@@ -151,8 +151,8 @@
     <!-- Categories End -->
 
     <!-- Products Start -->
-    <div class="container-fluid pt-5 pb-3">
-        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+    {{-- <div class="container-fluid pt-5 pb-3"> --}}
+        {{-- <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-5">
             <span class="bg-secondary pr-3">Featured Products</span>
         </h2>
         <div class="row px-xl-5">'
@@ -160,8 +160,19 @@
                 @include('client.blade_helpers.item', ['product' => $item])
             @endforeach
 
+        </div> --}}
+        <div class="container-fluid pt-5 pb-3">
+            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+                <span class="bg-secondary pr-3">Featured Products</span>
+            </h2>
+            <div class="row px-xl-5">
+                @foreach ($promoted_products as $product)
+                    @include('client.blade_helpers.item', ['product' => $product])
+                @endforeach
+
+            </div>
         </div>
-    </div>
+    {{-- </div> --}}
     <!-- Products End -->
 
     <!-- Offer Start -->

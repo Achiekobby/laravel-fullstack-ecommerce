@@ -52,10 +52,12 @@ Route::middleware(['auth.user'])->group(function () {
 
     Route::middleware(["user.verified"])->group(function () {
 
-        // add_to_cart
+        //?=>Cart routes
         Route::post('add_to_cart',[CartController::class,'add_to_cart'])->name('user.add_to_cart');
         Route::get('get-cart-items',[CartController::class,'get_cart_items'])->name('user.get_cart_items');
         Route::get('remove-cart-item/{item_id}',[CartController::class,'removeFromCart'])->name('user.remove_cart_item');
+        Route::get('/increase_quantity/{item_id}',[CartController::class,'increaseQuantity'])->name('cart.increase_quantity');
+        Route::get('/decrease_quantity/{item_id}',[CartController::class,'decreaseQuantity'])->name('cart.decrease_quantity');
 
     });
 });

@@ -7,11 +7,8 @@ use App\Models\General\Category;
 use App\Models\General\Product;
 use App\Models\General\Subcategory;
 use App\Traits\StoreImageTrait;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -31,6 +28,25 @@ class ProductController extends Controller
     {
         $subcategories = Subcategory::where('category_id', $category)->get();
         return response()->json($subcategories);
+    }
+
+    public function getCategory($category_id)
+    {
+        $category = Category::query()->where('id', $category_id)->first();
+        return response()->json([$category->category_name]);
+    }
+
+    public function getSizeAndColorsOfProduct($id)
+    {
+        try {
+            $product = Product::query()->where('id', $id)->first();
+            if (!$product) {
+                return response()->json(['status' => 'failed', 'message' => "Product not found"]);
+            }
+            return response()->json(['status' => 'success', 'sizes' => $product->details['sizes'], 'colors' => $product->details['colors']]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'failed', 'message' => $e->getMessage()]);
+        }
     }
 
     /**
@@ -62,7 +78,23 @@ class ProductController extends Controller
                 "description" => 'required',
                 "status" => "required|string",
                 "image_one" => "required",
+                "color" => "nullable",
+                "size" => "nullable",
             ]);
+
+            //Todo => Handle the size and colors
+            $details = [
+                "sizes" => null,
+                "colors" => null,
+            ];
+
+            if ($request->has('size') && !is_null($request->size)) {
+                $details["sizes"] = $request->size;
+            }
+
+            if ($request->has('color') && !is_null($request->color)) {
+                $details["colors"] = $request->color;
+            }
 
             //* handle images
             $image_names = [];
@@ -105,13 +137,14 @@ class ProductController extends Controller
                 return redirect()->back()->with('error', 'You must upload at least one image for the product');
             }
 
+
             //*Query the DB table
             $product = Product::query()->create([
                 "uuid" => Str::uuid(),
                 "category_id" => $request->category_id,
                 "subcategory_id" => $request->subcategory_id,
                 "admin_id" => Auth::guard('admin')->user()->id,
-                "brand" => !is_null($request->brand) ? $request->brand : null,
+                "brand_id" => !is_null($request->brand) ? $request->brand : null,
                 "name" => $request->product_name,
                 "slug" => Str::slug($request->product_name),
                 "regular_price" => number_format((float) $request->regular_price, 2, '.', ''),
@@ -120,6 +153,7 @@ class ProductController extends Controller
                 "quantity" => (int) $request->quantity,
                 "description" => $request->description,
                 "photos" => $image_names,
+                "details" => $details,
 
             ]);
 
@@ -168,25 +202,27 @@ class ProductController extends Controller
     {
         try {
 
+            // dd($request->all());
             //* validation
             $request->validate([
-                "product_name"      => "required|string|max:255",
-                "category_id"       => "required",
-                "subcategory_id"    => "required",
-                "brand"             => "nullable|string",
-                "regular_price"     => "required",
-                "sales_price"       => "required",
-                "discount"          => "required",
-                "quantity"          => "required",
-                "description"       => 'required',
-                "status"            => "required|string",
-                "image_one"         => "file|mimes:jpg,jpeg,png",
-                "image_two"         => "file|mimes:jpg,jpeg,png",
-                "image_three"       => "file|mimes:jpg,jpeg,png",
-                "image_four"        => "file|mimes:jpg,jpeg,png",
+                "product_name" => "required|string|max:255",
+                "category_id" => "required",
+                "subcategory_id" => "required",
+                "brand" => "nullable|string",
+                "regular_price" => "required",
+                "sales_price" => "required",
+                "discount" => "required",
+                "quantity" => "required",
+                "description" => 'required',
+                "status" => "required|string",
+                "image_one" => "file|mimes:jpg,jpeg,png",
+                "image_two" => "file|mimes:jpg,jpeg,png",
+                "image_three" => "file|mimes:jpg,jpeg,png",
+                "image_four" => "file|mimes:jpg,jpeg,png",
+                "color" => "nullable",
+                "size" => "nullable",
             ]);
             // dd($request->all());
-
 
             //? find the product
             $product = Product::query()->where('uuid', $uuid)->first();
@@ -199,31 +235,31 @@ class ProductController extends Controller
             $image_names = $product->photos;
 
             if ($request->hasFile('image_one') && !is_null($request->image_one)) {
-                $image_one = $this->handleImageUpdateRequest($product, "image_one",$image_destination);
+                $image_one = $this->handleImageUpdateRequest($product, "image_one", $image_destination);
                 // dd($image_one);
-                if(!is_null($image_one)){
-                    $image_names["image_one"]= $image_one;
+                if (!is_null($image_one)) {
+                    $image_names["image_one"] = $image_one;
                 }
             }
             // dd($image_names);
 
             if ($request->hasFile('image_two') && !is_null($request->image_two)) {
-                $image_two = $this->handleImageUpdateRequest($product, "image_two",$image_destination);
-                if(!is_null($image_two)){
-                    $image_names["image_two"]= $image_two;
+                $image_two = $this->handleImageUpdateRequest($product, "image_two", $image_destination);
+                if (!is_null($image_two)) {
+                    $image_names["image_two"] = $image_two;
                 }
             }
 
             if ($request->hasFile('image_three') && !is_null($request->image_three)) {
-                $image_three = $this->handleImageUpdateRequest($product, "image_three",$image_destination);
-                if(!is_null($image_three)){
-                    $image_names["image_three"]= $image_three;
+                $image_three = $this->handleImageUpdateRequest($product, "image_three", $image_destination);
+                if (!is_null($image_three)) {
+                    $image_names["image_three"] = $image_three;
                 }
             }
             if ($request->hasFile('image_four') && !is_null($request->image_four)) {
-                $image_four = $this->handleImageUpdateRequest($product, "image_four",$image_destination);
-                if(!is_null($image_four)){
-                    $image_names["image_four"]= $image_four;
+                $image_four = $this->handleImageUpdateRequest($product, "image_four", $image_destination);
+                if (!is_null($image_four)) {
+                    $image_names["image_four"] = $image_four;
                 }
             }
 
@@ -231,26 +267,41 @@ class ProductController extends Controller
                 return redirect()->back()->with('error', 'You must upload at least one image for the product');
             }
 
+
+            //Todo => Handle the size and colors
+            $details = [
+                "sizes" => null,
+                "colors" => null,
+            ];
+
+            if ($request->has('size') && !is_null($request->size)) {
+                $details["sizes"] = $request->size;
+            }
+
+            if ($request->has('color') && !is_null($request->color)) {
+                $details["colors"] = $request->color;
+            }
+
             //* upload query
             $product_update = $product->update([
-                "category_id"               => $request->category_id,
-                "subcategory_id"            => $request->subcategory_id ?? $product->subcategory_id,
-                "brand"                     => !is_null($request->brand) ? $request->brand : $product->brand,
-                "name"                      => $request->product_name,
-                "slug"                      => Str::slug($request->product_name),
-                "regular_price"             => number_format((float) $request->regular_price, 2, '.', ''),
-                "sales_price"               => number_format((float) $request->sales_price, 2, '.', ''),
-                "discount_percentage"       => $request->discount,
-                "quantity"                  => (int) $request->quantity,
-                "description"               => $request->description,
-                "photos"                    => $image_names,
+                "category_id"           => $request->category_id,
+                "subcategory_id"        => $request->subcategory_id ?? $product->subcategory_id,
+                "brand"                 => !is_null($request->brand) ? $request->brand : $product->brand,
+                "name"                  => $request->product_name,
+                "slug"                  => Str::slug($request->product_name),
+                "regular_price"         => number_format((float) $request->regular_price, 2, '.', ''),
+                "sales_price"           => number_format((float) $request->sales_price, 2, '.', ''),
+                "discount_percentage"   => $request->discount,
+                "quantity"              => (int) $request->quantity,
+                "description"           => $request->description,
+                "photos"                => $image_names,
+                "details"               => $details
             ]);
 
-            if($product_update){
-                return redirect()->route('admin.products')->with('success',"Great you have successfully updated {$product->name}");
-            }
-            else{
-                return redirect()->back()->with('error','Sorry, a problem occurred during the update of the product. Please try again later');
+            if ($product_update) {
+                return redirect()->route('admin.products')->with('success', "Great you have successfully updated {$product->name}");
+            } else {
+                return redirect()->back()->with('error', 'Sorry, a problem occurred during the update of the product. Please try again later');
             }
 
         } catch (\Exception $e) {
@@ -289,29 +340,27 @@ class ProductController extends Controller
     /**
      * Handle images during a product update.
      */
-    public function handleImageUpdateRequest(Product $product, string $image_number, $destination){
+    public function handleImageUpdateRequest(Product $product, string $image_number, $destination)
+    {
 
-        $uploaded_image_name =null;
+        $uploaded_image_name = null;
         if (array_key_exists($image_number, $product->photos)) {
             $image_name = $this->store_image($image_number, $destination);
             if ($image_name) {
                 //* remove the image from the product images directory
                 $imageName = $product->photos[$image_number];
-                if (file_exists(public_path('/uploads/products/'.$imageName))) {
-                    unlink(public_path('/uploads/products/'.$imageName));
+                if (file_exists(public_path('/uploads/products/' . $imageName))) {
+                    unlink(public_path('/uploads/products/' . $imageName));
                 }
                 $uploaded_image_name = $image_name;
+            } else {
+                $uploaded_image_name = $product->photos[$image_number];
             }
-            else{
-                $uploaded_image_name= $product->photos[$image_number];
-            }
-        }
-        else{
+        } else {
             $image_name = $this->store_image($image_number, $destination);
             if ($image_name) {
                 $uploaded_image_name = $image_name;
-            }
-            else{
+            } else {
                 $uploaded_image_name = null;
             }
         }
@@ -323,21 +372,22 @@ class ProductController extends Controller
      * Promote a product
      */
 
-    public function promote_product($uuid, $promo_value){
+    public function promote_product($uuid, $promo_value)
+    {
         try {
             //* find the product to be promoted
-            $product = Product::query()->where('uuid',$uuid)->first();
-            if(!$product){
-                return redirect()->back()->with('error','Product not found');
+            $product = Product::query()->where('uuid', $uuid)->first();
+            if (!$product) {
+                return redirect()->back()->with('error', 'Product not found');
             }
-            if($promo_value ==="un-promote"){
+            if ($promo_value === "un-promote") {
                 $product->promotion()->delete();
-                return redirect()->back()->with('success','Great, This product has been removed from the promotion list');
+                return redirect()->back()->with('success', 'Great, This product has been removed from the promotion list');
             }
 
-            if($promo_value ==="promote"){
+            if ($promo_value === "promote") {
                 $product->promotion()->create();
-                return redirect()->back()->with('success','Great, This product has been successfully promoted');
+                return redirect()->back()->with('success', 'Great, This product has been successfully promoted');
             }
 
         } catch (\Exception $e) {
@@ -345,4 +395,3 @@ class ProductController extends Controller
         }
     }
 }
-

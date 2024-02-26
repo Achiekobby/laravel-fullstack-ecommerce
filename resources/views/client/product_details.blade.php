@@ -65,83 +65,79 @@
                     <p class="mb-4">
 
                     </p>
-                    @if (!is_null($product->category_id) && $product->category->category_name === 'Fashion and Clothing')
-                        <div class="d-flex mb-3">
-                            <strong class="text-dark mr-3">Sizes:</strong>
-                            <form>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="size-1" name="size" />
-                                    <label class="custom-control-label" for="size-1">XS</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="size-2" name="size" />
-                                    <label class="custom-control-label" for="size-2">S</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="size-3" name="size" />
-                                    <label class="custom-control-label" for="size-3">M</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="size-4" name="size" />
-                                    <label class="custom-control-label" for="size-4">L</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="size-5" name="size" />
-                                    <label class="custom-control-label" for="size-5">XL</label>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="d-flex mb-4">
-                            <strong class="text-dark mr-3">Colors:</strong>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="color-1" name="color" />
-                                    <label class="custom-control-label" for="color-1">Black</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="color-2" name="color" />
-                                    <label class="custom-control-label" for="color-2">White</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="color-3" name="color" />
-                                    <label class="custom-control-label" for="color-3">Red</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="color-4" name="color" />
-                                    <label class="custom-control-label" for="color-4">Blue</label>
-                                </div>
-                                <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" class="custom-control-input" id="color-5" name="color" />
-                                    <label class="custom-control-label" for="color-5">Green</label>
-                                </div>
-                            </form>
-                        </div>
-                    @endif
-                    <div class="d-flex align-items-center mb-4 pt-2">
-                        @php
-                            $initial_value = 1;
-                        @endphp
-                        <div class="input-group quantity mr-3" style="width: 130px">
-                            <div class="input-group-btn">
-                                <div class="btn btn-primary btn-minus" id="btn-minus">
-                                    <i class="fa fa-minus"></i>
-                                </div>
+                    <form method="POST" action="{{ route('user.add_to_cart') }}">
+                        @csrf
+                        <input hidden type="text" name="product_id" value="{{ $product->id }}">
+                        @if (!is_null($product->category_id) && $product->category->category_name === 'Fashion and Clothing')
+                            <div class="d-flex mb-3">
+                                @php
+                                    $sizes = null;
+                                    $product_sizes = $product->details['sizes'];
+                                    if (count($product_sizes) !== 0) {
+                                        $sizes = $product_sizes;
+                                    }
+                                @endphp
+                                @if (!is_null($sizes))
+                                    <strong class="text-dark mr-3">Sizes:</strong>
+                                    @foreach ($sizes as $key => $size)
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" class="custom-control-input" id="{{ 'size-' . $key }}"
+                                                name="size" value="{{ $size }}" />
+                                            <label class="custom-control-label"
+                                                for="{{ 'size-' . $key }}">{{ $size }}</label>
+                                        </div>
+                                    @endforeach
+                                @endif
                             </div>
 
+                            <div class="d-flex mb-4">
+                                @php
+                                    $colors = null;
+                                    $product_colors = $product->details['colors'];
+                                    if (count($product_colors) !== 0) {
+                                        $colors = $product_colors;
+                                    }
+                                @endphp
+                                @if (!is_null($colors))
+                                    <strong class="text-dark mr-3">Colors:</strong>
+                                    @foreach ($colors as $key => $color)
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" class="custom-control-input" id="{{ 'color-' . $key }}"
+                                                name="color" value="{{ $color }}" />
+                                            <label class="custom-control-label"
+                                                for="{{ 'color-' . $key }}">{{ $color }}</label>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        @endif
+                        <div class="d-flex align-items-center mb-4 pt-2">
+                            @php
+                                $initial_value = 1;
+                            @endphp
+                            <div class="input-group quantity mr-3" style="width: 130px">
+                                <div class="input-group-btn">
+                                    <div class="btn btn-primary btn-minus" id="btn-minus">
+                                        <i class="fa fa-minus"></i>
+                                    </div>
+                                </div>
 
-                            <input type="text" class="form-control bg-secondary border-0 text-center" name="quantity"
-                                id="quantity_value" value="{{ $initial_value }}" />
 
-                            <div class="input-group-btn">
-                                <div class="btn btn-primary btn-plus" id="btn-plus">
-                                    <i class="fa fa-plus"></i>
+                                <input type="text" class="form-control bg-secondary border-0 text-center" name="quantity"
+                                    id="quantity_value" value="{{ $initial_value }}" />
+
+                                <div class="input-group-btn">
+                                    <div class="btn btn-primary btn-plus" id="btn-plus">
+                                        <i class="fa fa-plus"></i>
+                                    </div>
                                 </div>
                             </div>
+                            <button type="submit" class="btn btn-primary px-3">
+                                <i class="fa fa-shopping-cart mr-1"></i> Add To
+                                Cart
+                            </button>
                         </div>
-                        <button class="btn btn-primary px-3">
-                            <i class="fa fa-shopping-cart mr-1"></i> Add To
-                            Cart
-                        </button>
-                    </div>
+                    </form>
                     <div class="d-flex pt-2">
                         <strong class="text-dark mr-2">Share on:</strong>
                         <div class="d-inline-flex">

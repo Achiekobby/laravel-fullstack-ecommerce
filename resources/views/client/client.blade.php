@@ -133,9 +133,9 @@
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                     <a class="text-decoration-none" href="">
                         <div class="cat-item d-flex align-items-center mb-4">
-                            <div class="overflow-hidden" style="width: 100px; height: 100px">
+                            <div class="overflow-hidden" style="width: 100px; height: 100%;">
                                 <img class="img-fluid" src="{{ asset('/uploads/categories/' . $category->image) }}"
-                                    alt="{{ $category->category_name }}" />
+                                    alt="{{ $category->category_name }}" style="height: 100%; object-fit:contain;" />
                             </div>
                             <div class="flex-fill pl-3">
                                 <h6>{{ $category->category_name }}</h6>
@@ -204,4 +204,25 @@
         </div>
     </div>
     <!-- Products End -->
+
+    <!-- Vendor Start -->
+    <div class="container-fluid py-5">
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="owl-carousel vendor-carousel">
+                    @if (count($brands) !== 0)
+                        @foreach ($brands as $brand)
+                            <div class="bg-light p-4" style="height: 150px; display:flex; justify-content:center; align-items:center">
+                                <img style="height: 100%; object-fit:contain;" src="{{ '/uploads/brands/' . $brand->image }}" alt="{{ $brand->name }}" />
+                            </div>
+                        @endforeach
+                    @endif
+                    {{-- <div class="bg-light p-4">
+                            <img src="img/vendor-1.jpg" alt="" />
+                        </div> --}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Vendor End -->
 @endsection

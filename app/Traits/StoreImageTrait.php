@@ -22,4 +22,15 @@ trait StoreImageTrait
 
         return $image_name;
     }
+
+    public function remove_image($photo)
+    {
+        if (file_exists(public_path('/uploads/brands/' . $photo))) {
+
+            unlink(public_path('/uploads/brands/' . $photo));
+
+            return true;
+        }
+        return false;
+    }
 }

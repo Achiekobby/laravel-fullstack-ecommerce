@@ -20,16 +20,17 @@
                     @endif
                     @csrf
                     <div class="row">
+                        <p id="product_id" style="display: none;">{{ $product->id }}</p>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Product Name<span class="text-danger">*</span></label>
+                                <label class="col-form-label">Product Name<span class="text-danger">*</span></label>
                                 <input type="text" name="product_name" value="{{ $product->name }}" />
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Category<span class="text-danger">*</span></label>
-                                <select id="category" class="form-control" name="category_id">
+                                <label class="col-form-label">Category<span class="text-danger">*</span></label>
+                                <select id="category" class="js-example-basic-single" name="category_id">
                                     @if (is_null($product->category_id))
                                         <option value="">Assign a Category</option>
                                     @else
@@ -49,8 +50,8 @@
                         {{-- <h1>{{$product->subcategory->name}}</h1> --}}
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Sub Category<span class="text-danger">*</span></label>
-                                <select class="form-control" id="subCategory" name="subcategory_id">
+                                <label class="col-form-label">Sub Category<span class="text-danger">*</span></label>
+                                <select class="js-example-basic-single" id="subCategory" name="subcategory_id">
                                     @if (is_null($product->subcategory_id))
                                         <option value="">Assign a New Subcategory</option>
                                     @else
@@ -69,28 +70,100 @@
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Brand</label>
-                                <input type="text" name="brand" value="{{ $product->brand }}">
+                                <label class="col-form-label">Brand<span class="text-danger">*</span></label>
+                                <select class="js-example-basic-single" name="brand">
+                                    <option value="{{ $product->brand_id }}">{{ $product->brand->name }}</option>
+                                    @php
+                                        $brands = \App\Models\General\Brand::where('id', '!=', $product->brand_id)->get();
+                                    @endphp
+                                    @foreach ($brands as $brand)
+                                        <option value="{{ $brand->id }}">{{ $brand->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        @php
+                            $product = \App\Models\General\Product::where('id', $product->id)->first();
+                            $sizes = $product->details['sizes'];
+                            $colors = $product->details['colors'];
+                        @endphp
+
+                        <div class="row">
+                            <div id="size" style="display: none;" class="col-lg-3 col-sm-6 col-12 mt-1">
+                                <label class="col-form-label">Select All Available Sizes</label>
+                                <div class="form-group">
+                                    <select class="js-example-basic-single form-control tagging" id="sizesSelect"
+                                        multiple="multiple" name="size[]">
+                                        <option value="">Choose all that Apply</option>
+
+                                        @if (!is_null($sizes))
+                                            <option {{ in_array('SM', $sizes) ? 'selected' : '' }} value="SM">SM
+                                            </option>
+                                            <option {{ in_array('M', $sizes) ? 'selected' : '' }} value="M">M
+                                            </option>
+                                            <option {{ in_array('L', $sizes) ? 'selected' : '' }} value="L">L
+                                            </option>
+                                            <option {{ in_array('XL', $sizes) ? 'selected' : '' }} value="XL">XL
+                                            </option>
+                                            <option {{ in_array('XXL', $sizes) ? 'selected' : '' }} value="XXL">XXL
+                                            </option>
+                                            <option {{ in_array('XXXL', $sizes) ? 'selected' : '' }} value="XXXL">XXXL
+                                            </option>
+                                        @else
+                                            <option value="SM">SM</option>
+                                            <option value="M">M</option>
+                                            <option value="L">L</option>
+                                            <option value="XL">XL</option>
+                                            <option value="XXL">XXL</option>
+                                            <option value="XXXL">XXXL</option>
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div id="color" style="display: none;" class="col-lg-3 col-sm-6 col-12 mt-1">
+                                <label class="col-form-label">Choose Available Colors.</label>
+                                <div class="form-group">
+                                    <select class="select2 form-control tagging" multiple="multiple" name="color[]">
+                                        <option value="">Choose all that Apply</option>
+                                        @foreach ($colors as $color)
+                                            @if ($color !== 'Black' && $color !== 'White' && $color !== 'Red' && $color !== 'Silver')
+                                                <option selected value="{{ $color }}">{{ $color }}</option>
+                                            @endif
+                                        @endforeach
+                                        <option {{ in_array('Black', $colors) ? 'selected' : '' }} value="Black">Black</option>
+                                        <option {{ in_array('White', $colors) ? 'selected' : '' }} value="White">White</option>
+                                        <option {{ in_array('Red', $colors) ? 'selected' : '' }} value="Red">Red</option>
+                                        <option {{ in_array('Silver', $colors) ? 'selected' : '' }} value="Silver">Silver</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="col-lg-3 col-sm-6 col-12 mt-1">
                             <div class="form-group">
-                                <label>Regular Price<span class="text-danger">*</span></label>
-                                <input id="reg_price" type="text" name="regular_price"
-                                    value="{{ (int) $product->regular_price }}" />
+                                <label class="mb-3">Regular Price<span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">GHS.</span>
+                                    <input id="reg_price" type="text" name="regular_price"
+                                        value="{{ $product->regular_price }}" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6 col-12 mt-1">
+                            <div class="form-group">
+                                <label class="mb-3">Sales Price<span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">GHS.</span>
+                                    <input id="sale_price" type="text" name="sales_price"
+                                        value="{{ $product->sales_price }}" class="form-control" />
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Sales Price</label>
-                                <input id="sale_price" type="text" name="sales_price"
-                                    value="{{ (int) $product->sales_price }}" />
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="form-group">
-                                <label>Discount(%)</label>
+                                <label class="col-form-label">Discount(%)</label>
                                 <input id="discount" readonly type="text" name="discount"
                                     value="{{ $product->discount_percentage }}" class="form-control" />
                             </div>
@@ -98,7 +171,7 @@
 
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Quantity<span class="text-danger">*</span></label>
+                                <label class="col-form-label">Quantity<span class="text-danger">*</span></label>
                                 <input type="number" class="form-control" name="quantity"
                                     value="{{ $product->quantity }}" />
                             </div>
@@ -113,8 +186,8 @@
 
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="form-group">
-                                <label>Status<span class="text-danger">*</span></label>
-                                <select class="form-control" name="status">
+                                <label class="col-form-label">Status<span class="text-danger">*</span></label>
+                                <select class="js-example-basic-single" name="status">
                                     <option value="active">{{ $product->status }}</option>
                                     @if ($product->status === 'active')
                                         <option value="inactive">Inactive</option>
@@ -217,15 +290,92 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.ckeditor.com/ckeditor5/37.0.0/classic/ckeditor.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
 
+    });
+</script>
 <script>
     $(document).ready(function() {
+        const sizeInput = $("#size");
+        const colorInput = $("#color");
+        const categoryId = $("#category").val();
+        console.log("category_id", categoryId);
+
+
+        // const product_id = document.getElementById("product_id").textContent;
+        // const selectSizes = document.getElementById("sizesSelect");
+        // const options = selectSizes.options;
+        // console.log("options:",options);
+
+        // $.ajax({
+        //     url: `/get-details/${product_id}`,
+        //     type:"GET",
+        //     success:function(data){
+        //         if(data && data.status ==="success"){
+        //             const sizes = data.sizes;
+        //             for (let i = 0; i < options.length; i++) {
+
+        //                 if(sizes.includes(options[i].value)){
+        //                     options[i].setAttribute("selected","selected");
+        //                 }
+        //             }
+        //         }
+        //     }
+        // });
+
+        if (categoryId) {
+            $.ajax({
+                url: '/get-category/' + categoryId,
+                type: 'GET',
+                success: function(data) {
+                    if (data) {
+                        console.log("category", data[0]);
+                        if (data[0] === "Fashion and Clothing" || data.category_name ===
+                            "Fashion & Clothing") {
+                            sizeInput.css("display", "block");
+                            colorInput.css("display", "block");
+
+                        } else {
+                            sizeInput.css("display", "none");
+                            colorInput.css("display", "none");
+                        }
+                    }
+                }
+            });
+
+            $("#category").change(function() {
+                const categoryId = $(this).val();
+                console.log("category_id", categoryId);
+                // get category name
+                $.ajax({
+                    url: '/get-category/' + categoryId,
+                    type: 'GET',
+                    success: function(data) {
+                        if (data) {
+                            console.log("category", data[0]);
+                            if (data[0] === "Fashion and Clothing" || data.category_name ===
+                                "Fashion & Clothing") {
+                                sizeInput.css("display", "block");
+                                colorInput.css("display", "block");
+                            } else {
+                                sizeInput.css("display", "none");
+                                colorInput.css("display", "none");
+                            }
+                        }
+                    }
+                });
+
+            });
+        }
+
+
         // const subcategoryDropdown = $('#subCategory');
 
         // const initial_subcategory = $('#initial_subcategory').val();
         // const initial_subcategory_text = $('#initial_subcategory').text();
 
-        // // Function to fetch and populate subcategories
+        // Function to fetch and populate subcategories
         // function fetchAndPopulateSubcategories(categoryId) {
         //     // Append the initial option
         //     subcategoryDropdown.empty().append(
@@ -250,19 +400,19 @@
         //     });
         // }
 
-        // // Fetch subcategories initially based on the preselected category
-        // const initialCategoryId = $('#category').val();
-        // fetchAndPopulateSubcategories(initialCategoryId);
+        // Fetch subcategories initially based on the preselected category
+        const initialCategoryId = $('#category').val();
+        fetchAndPopulateSubcategories(initialCategoryId);
 
-        // $('#category').change(function() {
-        //     const categoryId = $(this).val();
-        //     console.log("category_id", categoryId);
-        //     if (categoryId) {
-        //         fetchAndPopulateSubcategories(categoryId);
-        //     } else {
-        //         subcategoryDropdown.empty();
-        //     }
-        // });
+        $('#category').change(function() {
+            const categoryId = $(this).val();
+            console.log("category_id", categoryId);
+            if (categoryId) {
+                fetchAndPopulateSubcategories(categoryId);
+            } else {
+                subcategoryDropdown.empty();
+            }
+        });
 
         // Function to update discount
         function updateDiscount() {
@@ -312,8 +462,25 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
+
         ClassicEditor
-            .create(document.querySelector('#description'))
+            .create(document.querySelector('#description'), {
+                toolbar: {
+                    items: [
+                        'heading',
+                        '|',
+                        'bold',
+                        'italic',
+                        'link',
+                        'bulletedList',
+                        'numberedList',
+                        'alignment',
+                        '|',
+                        'undo',
+                        'redo'
+                    ]
+                }
+            })
             .then(editor => {
                 console.log(editor);
             })

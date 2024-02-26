@@ -22,9 +22,11 @@ return new class extends Migration
             $table->foreignId('subcategory_id')->nullable();
             $table->foreign('subcategory_id')->references('id')->on('subcategories')->nullOnDelete();
 
+            $table->foreignId('brand_id')->nullable();
+            $table->foreign('brand_id')->references('id')->on('brands')->nullOnDelete();
+
             $table->unsignedBigInteger('admin_id');
 
-            $table->string('brand')->nullable();
             $table->string('name');
             $table->string('slug');
             $table->string('regular_price')->default("0.00");

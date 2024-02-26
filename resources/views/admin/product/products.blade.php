@@ -98,7 +98,7 @@
                                     </td>
                                     <td>{{ !is_null($product->subcategory_id) ? \Illuminate\Support\Str::title($product->subcategory->name) : 'N/A' }}
                                     </td>
-                                    <td>{{ !is_null($product->brand) ? \Illuminate\Support\Str::title($product->brand) : 'N/A' }}
+                                    <td>{{ !is_null($product->brand_id) ? \Illuminate\Support\Str::title($product->brand->name) : 'N/A' }}
                                     </td>
                                     <td>GHS.{{ $product->regular_price }}</td>
                                     <td>GHS.{{ $product->sales_price }}</td>

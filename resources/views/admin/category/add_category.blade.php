@@ -79,7 +79,7 @@
             const file = files[0];
             const imageSrc = URL.createObjectURL(file);
 
-            $(`#showImage`).append(
+            $(`#showImage`).html(
                 "<div class='col-lg-3 col-sm-6 col-12 mb-3'><img style='width:100%;height:100px; object-fit:contain; ' class='card-img-top' src='" +
                 imageSrc + "'></div>"
             );

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Auth\AdminAuthenticationController;
 
 //* ADMIN CONTROLLERS
 use App\Http\Controllers\Auth\UserAuthenticationController;
+use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ShopController;
 use Illuminate\Support\Facades\Route;
@@ -49,7 +51,12 @@ Route::middleware(['auth.user'])->group(function () {
     Route::get('email/verification/resend', [UserAuthenticationController::class, 'resend_verification_code'])->name('email.verification_resend');
 
     Route::middleware(["user.verified"])->group(function () {
-        // checkout
+
+        // add_to_cart
+        Route::post('add_to_cart',[CartController::class,'add_to_cart'])->name('user.add_to_cart');
+        Route::get('get-cart-items',[CartController::class,'get_cart_items'])->name('user.get_cart_items');
+        Route::get('remove-cart-item/{item_id}',[CartController::class,'removeFromCart'])->name('user.remove_cart_item');
+
     });
 });
 
@@ -97,6 +104,14 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('/show/{slug}',[ProductController::class,'show'])->name('admin.product.show');
             Route::get('/promote/{uuid}/{promo_value}',[ProductController::class,'promote_product'])->name('admin.product.promote');
         });
+        Route::group(['prefix'=>'brands'], function(){
+            Route::get('/',[BrandController::class,'index'])->name('admin.brands');
+            Route::get('/add',[BrandController::class,'create'])->name('admin.brand.add');
+            Route::post('/store',[BrandController::class,'store'])->name('admin.brand.store');
+            Route::get('/edit/{id}',[BrandController::class,'edit'])->name('admin.brand.edit');
+            Route::post('/update/{id}',[BrandController::class,'update'])->name('admin.brand.update');
+            Route::get('/remove/{id}',[BrandController::class,'destroy'])->name('admin.brand.remove');
+        });
     });
 
     Route::get('/login', [AdminAuthenticationController::class, 'login'])->name('admin.login');
@@ -106,3 +121,5 @@ Route::group(['prefix' => 'admin'], function () {
 
 //* General apis
 Route::get('/get-subcategories/{category}', [ProductController::class,'getSubcategories'])->name('get.subcategories');
+Route::get('/get-category/{category_id}', [ProductController::class,'getCategory'])->name('get.category');
+Route::get('/get-details/{id}',[ProductController::class,'getSizeAndColorsOfProduct'])->name('get.product.details');

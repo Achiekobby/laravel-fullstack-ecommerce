@@ -14,13 +14,13 @@ class Product extends Model
         "uuid",
         "category_id",
         "subcategory_id",
+        "brand_id",
         "name",
         "admin_id",
         "quantity",
         "regular_price",
         "sales_price",
         "rating",
-        "brand",
         "details",
         "photos",
         "discount_percentage",
@@ -29,7 +29,7 @@ class Product extends Model
         "slug"
     ];
 
-    protected $casts = ["photos"=>"array"];
+    protected $casts = ["photos"=>"array",'details'=>'array'];
 
     public function category(){
         return $this->belongsTo(Category::class,'category_id');
@@ -41,5 +41,13 @@ class Product extends Model
 
     public function promotion(){
         return $this->hasOne(Promotion::class);
+    }
+
+    public function brand(){
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function cartItems(){
+        return $this->hasMany(CartItem::class);
     }
 }

@@ -1,59 +1,59 @@
-@extends('layout.app')
+{{-- @extends('layout.app') --}}
+@extends('client_layout.app')
 @section('content')
-    <div class="page-header breadcrumb-wrap">
-        <div class="container">
-            <div class="breadcrumb">
-                <a href="{{route('home.index')}}" rel="nofollow">Home</a>
-                <span></span> Login
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="#">Home</a>
+                    <span class="breadcrumb-item active">Login</span>
+                </nav>
             </div>
         </div>
     </div>
-    <section class="pt-150 pb-150">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-10 m-auto">
-                    <div class="row">
-                        <div class="col-lg-5">
-                            <div
-                                class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
-                                <div class="padding_eight_all bg-white">
-                                    <div class="heading_s1">
-                                        <h3 class="mb-30">Login</h3>
-                                    </div>
-                                    <form method="post" action="{{route('user.login')}}">
-                                        @csrf
-                                        <div class="form-group">
-                                            <input type="text" required="" name="email" placeholder="Your Email">
-                                        </div>
-                                        <div class="form-group">
-                                            <input required="" type="password" name="password" placeholder="Password">
-                                        </div>
-                                        {{-- <div class="login_footer form-group">
-                                            <div class="chek-form">
-                                                <div class="custome-checkbox">
-                                                    <input class="form-check-input" type="checkbox" name="checkbox"
-                                                        id="exampleCheckbox1" value="">
-                                                    <label class="form-check-label" for="exampleCheckbox1"><span>Remember
-                                                            me</span></label>
-                                                </div>
-                                            </div>
-                                            <a class="text-muted" href="#">Forgot password?</a>
-                                        </div> --}}
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-fill-out btn-block hover-up"
-                                                name="login">Log in</button>
-                                        </div>
-                                    </form>
-                                </div>
+    <!-- Breadcrumb End -->
+
+    <div class="container-fluid">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+            <span class="bg-secondary pr-3">login</span>
+        </h2>
+        <div class="col-lg-12">
+            <div class="row px-xl-5">
+                <div class="col-lg-6 mb-5">
+                    <div class="contact-form bg-light p-30" style="height: 90%;">
+                        <form method="POST" action="{{route('user.login')}}" class="mt-5">
+                            @csrf
+                            <div class="control-group mb-3">
+                                <input type="text" class="form-control" id="email" name="email"
+                                    placeholder="Your Email" required="required"
+                                    data-validation-required-message="Please enter your email" />
+                                @error('email')
+                                    <p class="help-block text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
-                        </div>
-                        <div class="col-lg-1"></div>
-                        <div class="col-lg-6">
-                            <img src="{{ asset('assets/imgs/login.png') }}">
-                        </div>
+                            <div class="control-group mb-3">
+                                <input type="password" class="form-control" id="password" name="password"
+                                    placeholder="Your Password" required="required"
+                                    data-validation-required-message="Please enter your password" />
+                                @error('password')
+                                    <p class="help-block text-danger">{{ $message }}<br></p>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
+                                <button class="btn btn-primary py-2 px-4" type="submit"
+                                    id="sendMessageButton">Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6 ">
+                    <div class="bg-light">
+                        {{-- <img style="height: 100%; object-fit:contain;" src="{{ asset('assets/imgs/login.png') }}"> --}}
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 @endsection

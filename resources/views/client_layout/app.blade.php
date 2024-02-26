@@ -12,50 +12,51 @@
         </div>
         <div class="col-lg-6 text-center text-lg-right">
             <div class="d-inline-flex align-items-center">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">
-                        My Account
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item" type="button">
-                            Sign in
-                        </button>
-                        <button class="dropdown-item" type="button">
-                            Sign up
-                        </button>
+
+                @if (Auth::guard('user')->check())
+                    <div class="btn-group">
+                        <a href="#" type="button" class="btn btn-sm btn-light dropdown-toggle"
+                            data-toggle="dropdown">
+                            {{ Auth::guard('user')->user()->first_name . ' ' . Auth::guard('user')->user()->last_name }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="#" class="dropdown-item">
+                                Profile
+                            </a>
+                            <form method="POST" action="{{ route('user.logout') }}">
+                                @csrf
+                                <a href="{{ route('guest.register') }}" class="dropdown-item"
+                                    onclick="event.preventDefault(); this.closest('form').submit();">
+                                    Logout
+                                </a>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                @else
+                    <div class="btn-group">
+                        <a href="#" type="button" class="btn btn-sm btn-light dropdown-toggle"
+                            data-toggle="dropdown">
+                            My Account
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="{{ route('login') }}" class="dropdown-item">
+                                Sign in
+                            </a>
+                            <a href="{{ route('guest.register') }}" class="dropdown-item">
+                                Sign up
+                            </a>
+                        </div>
+                    </div>
+                @endif
                 <div class="btn-group mx-2">
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">
-                        USD
+                    <button type="button" class="btn btn-sm btn-light" data-toggle="dropdown">
+                        GHS
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item" type="button">
-                            EUR
-                        </button>
-                        <button class="dropdown-item" type="button">
-                            GBP
-                        </button>
-                        <button class="dropdown-item" type="button">
-                            CAD
-                        </button>
-                    </div>
                 </div>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">
+                    <button type="button" class="btn btn-sm btn-light" data-toggle="dropdown">
                         EN
                     </button>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <button class="dropdown-item" type="button">
-                            FR
-                        </button>
-                        <button class="dropdown-item" type="button">
-                            AR
-                        </button>
-                        <button class="dropdown-item" type="button">
-                            RU
-                        </button>
-                    </div>
                 </div>
             </div>
             <div class="d-inline-flex align-items-center d-block d-lg-none">
@@ -73,8 +74,8 @@
     <div class="row align-items-center bg-light py-3 px-xl-5 d-none d-lg-flex">
         <div class="col-lg-4">
             <a href="" class="text-decoration-none">
-                <span class="h1 text-uppercase text-primary bg-dark px-2">Online</span>
-                <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Shop</span>
+                <span class="h1 text-uppercase text-primary bg-dark px-2">E</span>
+                <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">COMM</span>
             </a>
         </div>
         <div class="col-lg-4 col-6 text-left">
@@ -91,7 +92,7 @@
         </div>
         <div class="col-lg-4 col-6 text-right">
             <p class="m-0">Customer Service</p>
-            <h5 class="m-0">+012 345 6789</h5>
+            <h5 class="m-0">+233 300 000 00</h5>
         </div>
     </div>
 </div>
@@ -153,11 +154,13 @@
                             <span class="badge text-secondary border border-secondary rounded-circle"
                                 style="padding-bottom: 2px">0</span>
                         </a>
-                        <a href="" class="btn px-0 ml-3">
-                            <i class="fas fa-shopping-cart text-primary"></i>
-                            <span class="badge text-secondary border border-secondary rounded-circle"
-                                style="padding-bottom: 2px">0</span>
-                        </a>
+                        @if (Auth::guard('user')->check())
+                            <a href="{{ route('user.get_cart_items') }}" class="btn px-0 ml-3">
+                                <i class="fas fa-shopping-cart text-primary"></i>
+                                <span class="badge text-secondary border border-secondary rounded-circle"
+                                    style="padding-bottom: 2px">{{ is_null($cart) ? 0 : $cart->cartItems()->count() }}</span>
+                            </a>
+                        @endif
                     </div>
                 </div>
             </nav>

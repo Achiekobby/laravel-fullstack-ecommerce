@@ -1,7 +1,7 @@
 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-    <div class="product-item bg-light mb-4">
-        <div class="product-img position-relative overflow-hidden">
-            <img class="img-fluid w-100"
+    <div class="product-item bg-light mb-4" style="height: 90%;">
+        <div class="product-img position-relative overflow-hidden" style="height: 80%">
+            <img class="img-fluid w-100" style="object-fit: contain;"
                 src="{{ asset('/uploads/products/' . $product->photos['image_one']) }}"
                 alt="{{ $product->name }}" />
             <div class="product-action">

@@ -29,12 +29,12 @@
                     <li>
                         <a href="{{route('admin.subcategory.add')}}">Add Sub Category</a>
                     </li>
-                    {{-- <li>
-                        <a href="brandlist.html">Brand List</a>
+                    <li>
+                        <a href="{{route('admin.brands')}}">Brand List</a>
                     </li>
                     <li>
-                        <a href="addbrand.html">Add Brand</a>
-                    </li> --}}
+                        <a href="{{route('admin.brand.add')}}">Add Brand</a>
+                    </li>
                 </ul>
             </li>
             <li class="submenu">

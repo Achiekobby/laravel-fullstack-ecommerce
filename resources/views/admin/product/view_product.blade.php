@@ -36,7 +36,7 @@
                                 </li>
                                 <li>
                                     <h4>Brand</h4>
-                                    <h6>{{ !is_null($product->brand) ? $product->brand : 'N/A' }}</h6>
+                                    <h6>{{ !is_null($product->brand) ? $product->brand->name : 'N/A' }}</h6>
                                 </li>
 
                                 <li>

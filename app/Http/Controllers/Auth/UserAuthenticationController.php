@@ -104,10 +104,23 @@ class UserAuthenticationController extends Controller
 
     public function verify_email($uuid)
     {
+        // dd(request()->all());
+        request()->validate([
+            "verification_code"=>"required|string"
+        ]);
 
         $now = Carbon::now()->format('Y-m-d H:i:s');
 
-        $verification = User::where("uuid", $uuid)->update(['email_verified_at' => $now()]);
+        $user = User::where("uuid", $uuid)->first();
+        if(!$user){
+            return redirect()->back()->with('error','Verification Failed, User not found');
+        }
+
+        if($user->email_verification_code !== request()->verification_code){
+            return redirect()->back()->with('error','Verification Failed, Incorrect verification code entered');
+        }
+
+        $verification = $user->update(['email_verified_at'=>$now]);
 
         if ($verification) {
             return redirect()->intended('/home');

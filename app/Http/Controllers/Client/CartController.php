@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\General\Cart;
 use App\Models\General\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,11 +14,12 @@ class CartController extends Controller
 {
     //TODO=> ADD TO CART FEATURE
     public function add_to_cart(){
+
+        // dd(request()->all());
         try {
             $rules =[
                 "product_id"=>'required|string',
                 "quantity"  =>"required|string",
-                "details"   =>'nullable'
             ];
             $validation = Validator::make(request()->all(),$rules);
             if($validation->fails()){
@@ -56,8 +58,24 @@ class CartController extends Controller
                     $discount = 0;
                 }
                 else{
-                    $discount = (($product->regular_price - $product->sales_price)/$product->regular_price)*100;
+                    $discount = ceil((($product->regular_price - $product->sales_price)/$product->regular_price)*100);
                 }
+
+                //?=>Handle the product size and color
+                $size=null;
+                $color=null;
+                $details = [];
+
+                if(request()->has('size') && !is_null(request()->size)){
+                    $size = request()->size;
+                    $details['size']=$size;
+                }
+
+                if(request()->has('color') && !is_null(request()->color)){
+                    $color = request()->color;
+                    $details['color']=$color;
+                }
+                $cart_item_quantity = $cart->cartItems()->where('product_id',request()->product_id)->first()->quantity ?? 0;
 
                 $cart->cartItems()->updateOrCreate(
                     [
@@ -66,8 +84,8 @@ class CartController extends Controller
                     [
                         'product_id'    =>request()->product_id,
                         'name'          =>$product->name,
-                        'details'       =>!is_null(request()->details) ? request()->details : null,
-                        'quantity'      =>(int)request()->quantity,
+                        'details'       =>$details,
+                        'quantity'      =>(int)($cart_item_quantity + request()->quantity),
                         'item_price'    =>$product->regular_price,
                         'sales_price'   =>$product->sales_price,
                         'discount'      =>$discount,
@@ -92,5 +110,65 @@ class CartController extends Controller
     }
 
 
-    //TODO=>
+    //TODO=> GET USERS CART ITEMS
+    public function get_cart_items(){
+        try{
+            $user = Auth::guard('user')->user();
+            if(!$user){
+                return redirect()->back()->with('error','You must be logged in to access this route');
+            }
+
+            $cart = Cart::query()->where('user_id',$user->id)->where('status','unpaid')->first();
+            return view('client.cart',['cart'=>$cart]);
+
+        }catch(\Exception $e){
+            return redirect()->back()->with('error',$e->getMessage());
+        }
+    }
+
+    //TODO=>REMOVE AN ITEM FROM CART
+    public function removeFromCart($item_id){
+        try{
+
+            $user = Auth::guard('user')->user();
+            if(!$user){
+                return redirect()->back()->with('error','You must be logged in to access this route');
+            }
+            $cart = Cart::query()->where('user_id',$user->id)->where('status','unpaid')->first();
+            if(!$cart){
+                return redirect()->back()->with('error','You do not have any item in your cart!!');
+            }
+
+            $cart_item = $cart->cartItems()->where('product_id',$item_id)->first();
+            if(!$cart_item){
+                return redirect()->back()->with('error','The item you are trying to delete does not exist!!');
+            }
+            //? make the necessary quantity changes
+            $total_items_left = (int)($cart->total_items - 1);
+
+            //?compute item amount
+            $item_amount = 0;
+            if($cart_item->sales_price!==0){
+                $item_amount = $cart_item->sales_price * $cart_item->quantity;
+            }
+            else{
+                $item_amount = $cart_item->item_price * $cart_item->quantity;
+            }
+            $amount_left = number_format((float)($cart->total_amount - $item_amount),2,'.','');
+
+            if($total_items_left == 0) {
+                //?=>remove the cart entry
+                $cart->delete();
+            }
+            else{
+                $cart->update([
+                    'total_items'=>$total_items_left,
+                    'total_amount'=>$amount_left,
+                ]);
+            }
+            return redirect()->back()->with('success','Item has been successfully removed from cart');
+        }catch(\Exception $e){
+            return redirect()->back()->with('error',$e->getMessage());
+        }
+    }
 }

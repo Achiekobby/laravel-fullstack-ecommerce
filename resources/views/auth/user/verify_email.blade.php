@@ -1,48 +1,50 @@
-@extends('layout.app')
+{{-- @extends('layout.app') --}}
+@extends('client_layout.app')
 @section('content')
-    <div class="page-header breadcrumb-wrap">
-        <div class="container">
-            <div class="breadcrumb">
-                <a href="{{ route('home.index') }}" rel="nofollow">Home</a>
-                <span></span> Verify Email
+    <!-- Breadcrumb Start -->
+    <div class="container-fluid">
+        <div class="row px-xl-5">
+            <div class="col-12">
+                <nav class="breadcrumb bg-light mb-30">
+                    <a class="breadcrumb-item text-dark" href="#">Home</a>
+                    <span class="breadcrumb-item active">Account Verification</span>
+                </nav>
             </div>
         </div>
     </div>
-    <section class="pt-150 pb-150">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-10 m-auto">
-                    <div class="row">
-                        <div class="col-lg-5">
-                            <div
-                                class="login_wrap widget-taber-content p-30 background-white border-radius-10 mb-md-5 mb-lg-0 mb-sm-5">
-                                <div class="padding_eight_all bg-white">
-                                    <div class="heading_s1">
-                                        <h3 class="mb-30">Verify Email</h3>
-                                    </div>
-                                    <form method="post" action="{{ route('email.verify') }}">
-                                        @csrf
-                                        <div class="form-group">
-                                            <input type="text" required="" name="code"
-                                                placeholder="Enter Verification Code...">
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-fill-out btn-block hover-up"
-                                                name="login">Submit Verification Code</button>
-                                        </div>
-                                    </form>
-                                    <div class="text-muted text-center">Did not recieve verification code? <a href="{{route('email.verification_resend')}}">Resend</a></div>
+    <!-- Breadcrumb End -->
+
+    <div class="container-fluid">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+            <span class="bg-secondary pr-3">Verify Account</span>
+        </h2>
+        <div class="col-lg-12">
+            <div class="row px-xl-5">
+                <div class="col-lg-6 mb-5">
+                    <div class="contact-form bg-light p-30" style="height: 90%;">
+                        <form method="POST" action="{{route('email.verify',['uuid'=>Auth::guard('user')->user()->uuid])}}" class="mt-5">
+                            @csrf
+                            <div class="control-group mb-3">
+                                <input type="text" class="form-control" id="email" name="verification_code"
+                                    placeholder="Your Verification Code" required="required"
+                                    data-validation-required-message="A verification code is required" />
+                                @error('verification_code')
+                                    <p class="help-block text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
-                                </div>
+                            <div class="mb-3">
+                                <button class="btn btn-primary py-2 px-4" type="submit"
+                                    id="sendMessageButton">Verify Account</button>
                             </div>
-                        </div>
-                        <div class="col-lg-1"></div>
-                        <div class="col-lg-6">
-                            <img src="{{ asset('assets/imgs/login.png') }}">
-                        </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-lg-6 ">
+                    <div class="bg-light">
+                        {{-- <img style="height: 100%; object-fit:contain;" src="{{ asset('assets/imgs/login.png') }}"> --}}
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 @endsection

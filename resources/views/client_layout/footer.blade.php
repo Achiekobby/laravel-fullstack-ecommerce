@@ -11,12 +11,10 @@
                         est magna amet no
                     </p>
                     <p class="mb-2">
-                        <i class="fa fa-map-marker-alt text-primary mr-3"></i
-                        >123 Street, New York, USA
+                        <i class="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA
                     </p>
                     <p class="mb-2">
-                        <i class="fa fa-envelope text-primary mr-3"></i
-                        >info@example.com
+                        <i class="fa fa-envelope text-primary mr-3"></i>info@example.com
                     </p>
                     <p class="mb-0">
                         <i class="fa fa-phone-alt text-primary mr-3"></i>+012
@@ -29,66 +27,38 @@
                             <h5 class="text-secondary text-uppercase mb-4">
                                 Quick Shop
                             </h5>
-                            <div
-                                class="d-flex flex-column justify-content-start"
-                            >
-                                <a class="text-secondary mb-2" href="#"
-                                    ><i class="fa fa-angle-right mr-2"></i
-                                    >Home</a
-                                >
-                                <a class="text-secondary mb-2" href="#"
-                                    ><i class="fa fa-angle-right mr-2"></i>Our
-                                    Shop</a
-                                >
-                                <a class="text-secondary mb-2" href="#"
-                                    ><i class="fa fa-angle-right mr-2"></i>Shop
-                                    Detail</a
-                                >
-                                <a class="text-secondary mb-2" href="#"
-                                    ><i class="fa fa-angle-right mr-2"></i
-                                    >Shopping Cart</a
-                                >
-                                <a class="text-secondary mb-2" href="#"
-                                    ><i class="fa fa-angle-right mr-2"></i
-                                    >Checkout</a
-                                >
-                                <a class="text-secondary" href="#"
-                                    ><i class="fa fa-angle-right mr-2"></i
-                                    >Contact Us</a
-                                >
+                            <div class="d-flex flex-column justify-content-start">
+                                <a class="text-secondary mb-2" href="#"><i
+                                        class="fa fa-angle-right mr-2"></i>Home</a>
+                                <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our
+                                    Shop</a>
+                                <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shop
+                                    Detail</a>
+                                <a class="text-secondary mb-2" href="#"><i
+                                        class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
+                                <a class="text-secondary mb-2" href="#"><i
+                                        class="fa fa-angle-right mr-2"></i>Checkout</a>
+                                <a class="text-secondary" href="#"><i class="fa fa-angle-right mr-2"></i>Contact
+                                    Us</a>
                             </div>
                         </div>
                         <div class="col-md-4 mb-5">
                             <h5 class="text-secondary text-uppercase mb-4">
                                 My Account
                             </h5>
-                            <div
-                                class="d-flex flex-column justify-content-start"
-                            >
-                                <a class="text-secondary mb-2" href="#"
-                                    ><i class="fa fa-angle-right mr-2"></i
-                                    >Home</a
-                                >
-                                <a class="text-secondary mb-2" href="#"
-                                    ><i class="fa fa-angle-right mr-2"></i>Our
-                                    Shop</a
-                                >
-                                <a class="text-secondary mb-2" href="#"
-                                    ><i class="fa fa-angle-right mr-2"></i>Shop
-                                    Detail</a
-                                >
-                                <a class="text-secondary mb-2" href="#"
-                                    ><i class="fa fa-angle-right mr-2"></i
-                                    >Shopping Cart</a
-                                >
-                                <a class="text-secondary mb-2" href="#"
-                                    ><i class="fa fa-angle-right mr-2"></i
-                                    >Checkout</a
-                                >
-                                <a class="text-secondary" href="#"
-                                    ><i class="fa fa-angle-right mr-2"></i
-                                    >Contact Us</a
-                                >
+                            <div class="d-flex flex-column justify-content-start">
+                                <a class="text-secondary mb-2" href="#"><i
+                                        class="fa fa-angle-right mr-2"></i>Home</a>
+                                <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our
+                                    Shop</a>
+                                <a class="text-secondary mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Shop
+                                    Detail</a>
+                                <a class="text-secondary mb-2" href="#"><i
+                                        class="fa fa-angle-right mr-2"></i>Shopping Cart</a>
+                                <a class="text-secondary mb-2" href="#"><i
+                                        class="fa fa-angle-right mr-2"></i>Checkout</a>
+                                <a class="text-secondary" href="#"><i class="fa fa-angle-right mr-2"></i>Contact
+                                    Us</a>
                             </div>
                         </div>
                         <div class="col-md-4 mb-5">
@@ -101,11 +71,7 @@
                             </p>
                             <form action="">
                                 <div class="input-group">
-                                    <input
-                                        type="text"
-                                        class="form-control"
-                                        placeholder="Your Email Address"
-                                    />
+                                    <input type="text" class="form-control" placeholder="Your Email Address" />
                                     <div class="input-group-append">
                                         <button class="btn btn-primary">
                                             Sign Up
@@ -117,43 +83,26 @@
                                 Follow Us
                             </h6>
                             <div class="d-flex">
-                                <a
-                                    class="btn btn-primary btn-square mr-2"
-                                    href="#"
-                                    ><i class="fab fa-twitter"></i
-                                ></a>
-                                <a
-                                    class="btn btn-primary btn-square mr-2"
-                                    href="#"
-                                    ><i class="fab fa-facebook-f"></i
-                                ></a>
-                                <a
-                                    class="btn btn-primary btn-square mr-2"
-                                    href="#"
-                                    ><i class="fab fa-linkedin-in"></i
-                                ></a>
-                                <a class="btn btn-primary btn-square" href="#"
-                                    ><i class="fab fa-instagram"></i
-                                ></a>
+                                <a class="btn btn-primary btn-square mr-2" href="#"><i
+                                        class="fab fa-twitter"></i></a>
+                                <a class="btn btn-primary btn-square mr-2" href="#"><i
+                                        class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-primary btn-square mr-2" href="#"><i
+                                        class="fab fa-linkedin-in"></i></a>
+                                <a class="btn btn-primary btn-square" href="#"><i
+                                        class="fab fa-instagram"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div
-                class="row border-top mx-xl-5 py-4"
-                style="border-color: rgba(256, 256, 256, 0.1) !important"
-            >
+            <div class="row border-top mx-xl-5 py-4" style="border-color: rgba(256, 256, 256, 0.1) !important">
                 <div class="col-md-6 px-xl-0">
                     <p class="mb-md-0 text-center text-md-left text-secondary">
                         &copy;
                         <a class="text-primary" href="#">Rhodel IT Consult</a>.
                         All Rights Reserved. Designed by
-                        <a
-                            class="text-primary"
-                            href="https://rhodelitconsult.com"
-                            >Rhodel IT Consult</a
-                        >
+                        <a class="text-primary" href="https://rhodelitconsult.com">Rhodel IT Consult</a>
                     </p>
                 </div>
                 <div class="col-md-6 px-xl-0 text-center text-md-right">
@@ -164,21 +113,56 @@
         <!-- Footer End -->
 
         <!-- Back to Top -->
-        <a href="#" class="btn btn-primary back-to-top"
-            ><i class="fa fa-angle-double-up"></i
-        ></a>
+        <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
         <!-- JavaScript Libraries -->
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-        <script src="{{asset('alt_asset/lib/easing/easing.min.js')}}"></script>
-        <script src="{{asset('alt_asset/lib/owlcarousel/owl.carousel.min.js')}}"></script>
+        <script src="{{asset('admin/assets/js/jquery-3.6.0.min.js')}}"></script>
+        <script src="{{asset('admin/assets/js/bootstrap.bundle.min.js')}}"></script>
+
+        <script src="{{ asset('alt_asset/lib/easing/easing.min.js') }}"></script>
+        <script src="{{ asset('alt_asset/lib/owlcarousel/owl.carousel.min.js') }}"></script>
 
         <!-- Contact Javascript File -->
-        <script src="{{asset('alt_asset/mail/jqBootstrapValidation.min.js')}}"></script>
-        <script src="{{asset('alt_asset/mail/contact.js')}}"></script>
+        <script src="{{ asset('alt_asset/mail/jqBootstrapValidation.min.js') }}"></script>
+        <script src="{{ asset('alt_asset/mail/contact.js') }}"></script>
 
         <!-- Template Javascript -->
-        <script src="{{asset('alt_asset/js/main.js')}}"></script>
-    </body>
-</html>
+        <script src="{{ asset('alt_asset/js/main.js') }}"></script>
+        <script src="{{asset('admin/assets/plugins/toastr/toastr.min.js')}}"></script>
+        <script src="{{asset('admin/assets/plugins/toastr/toastr.js')}}"></script>
+        <script>
+            @if (Session::has('success'))
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true
+                }
+                toastr.success("{{ session('success') }}");
+            @endif
+
+            @if (Session::has('error'))
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true
+                }
+                toastr.error("{{ session('error') }}");
+            @endif
+
+            @if (Session::has('info'))
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true
+                }
+                toastr.info("{{ session('info') }}");
+            @endif
+
+            @if (Session::has('warning'))
+                toastr.options = {
+                    "closeButton": true,
+                    "progressBar": true
+                }
+                toastr.warning("{{ session('warning') }}");
+            @endif
+        </script>
+        </body>
+
+        </html>

@@ -116,8 +116,8 @@
         <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
         <!-- JavaScript Libraries -->
-        <script src="{{asset('admin/assets/js/jquery-3.6.0.min.js')}}"></script>
-        <script src="{{asset('admin/assets/js/bootstrap.bundle.min.js')}}"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
         <script src="{{ asset('alt_asset/lib/easing/easing.min.js') }}"></script>
         <script src="{{ asset('alt_asset/lib/owlcarousel/owl.carousel.min.js') }}"></script>
@@ -127,9 +127,9 @@
         <script src="{{ asset('alt_asset/mail/contact.js') }}"></script>
 
         <!-- Template Javascript -->
-        <script src="{{ asset('alt_asset/js/main.js') }}"></script>
         <script src="{{asset('admin/assets/plugins/toastr/toastr.min.js')}}"></script>
         <script src="{{asset('admin/assets/plugins/toastr/toastr.js')}}"></script>
+        <script src="{{ asset('alt_asset/js/main.js') }}"></script>
         <script>
             @if (Session::has('success'))
                 toastr.options = {

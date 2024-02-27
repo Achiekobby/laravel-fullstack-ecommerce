@@ -144,11 +144,11 @@
                 <div class="row pb-3">
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <div>
+                            {{-- <div>
                                 <button class="btn btn-sm btn-light"><i class="fa fa-th-large"></i></button>
                                 <button class="btn btn-sm btn-light ml-2"><i class="fa fa-bars"></i></button>
-                            </div>
-                            <div class="ml-2">
+                            </div> --}}
+                            {{-- <div class="ml-2">
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-sm btn-light dropdown-toggle"
                                         data-toggle="dropdown">Sorting</button>
@@ -167,7 +167,7 @@
                                         <a class="dropdown-item" href="#">30</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     @foreach ($products as $product)

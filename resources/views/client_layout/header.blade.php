@@ -16,18 +16,16 @@
             href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
             rel="stylesheet"
         />
-        <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap.min.css') }}" />
-
 
         <!-- Font Awesome -->
         <link
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
         rel="stylesheet"
         />
+        <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap.min.css') }}" />
 
         <!-- Libraries Stylesheet -->
-        {{-- <link href="{{asset('alt_asset/lib/animate/animate.min.css')}}" rel="stylesheet" /> --}}
-    <link rel="stylesheet" href="{{ asset('admin/assets/css/animate.css') }}" />
+        <link href="{{asset('alt_asset/lib/animate/animate.min.css')}}" rel="stylesheet" />
 
         <link
         href="{{asset('alt_asset/lib/owlcarousel/assets/owl.carousel.min.css')}}"

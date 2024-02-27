@@ -11,6 +11,32 @@
                         <li data-target="#header-carousel" data-slide-to="2"></li>
                     </ol>
                     <div class="carousel-inner">
+                        @php
+                            $subcategories = \App\Models\General\Subcategory::all();
+
+                            $subcategory_id = null;
+                            $category_id = null;
+                            $subcategory_women = null;
+                            $category_women = null;
+
+                            foreach ($subcategories as $subcategory) {
+                                if ($subcategory_id === null && stripos($subcategory->name, 'men') !== false) {
+                                    $subcategory_id = $subcategory->id;
+                                    $category_id = $subcategory->category_id;
+                                }
+
+                                if ($subcategory_women === null && stripos($subcategory->name, 'women') !== false) {
+                                    $subcategory_women = $subcategory->id;
+                                    $category_women = $subcategory->category_id;
+                                }
+
+                                // If both conditions are met, terminate the loop
+                                if ($subcategory_id !== null && $subcategory_women !== null) {
+                                    break;
+                                }
+                            }
+
+                        @endphp
                         <div class="carousel-item position-relative active" style="height: 430px">
                             <img class="position-absolute w-100 h-100" src="{{ asset('alt_asset/img/carousel-1.jpg') }}"
                                 style="object-fit: cover" />
@@ -20,12 +46,13 @@
                                         Men Fashion
                                     </h1>
                                     <p class="mx-md-5 px-5 animate__animated animate__bounceIn">
-                                        Lorem rebum magna amet lorem magna
-                                        erat diam stet. Sadips duo stet amet
-                                        amet ndiam elitr ipsum diam
+                                        Discover the essence of modern masculinity. Elevate your style with our curated
+                                        collection of men's fashion essentials. From timeless classics to contemporary
+                                        trends, find the perfect pieces to redefine your wardrobe.
                                     </p>
                                     <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
-                                        href="#">Shop Now</a>
+                                        href="{{ !is_null($category_id) && !is_null($subcategory_id) ? route('home.shop.index', ['category' => $category_id, 'subcategory' => $subcategory_id]) : '#' }}">Shop
+                                        Now</a>
                                 </div>
                             </div>
                         </div>
@@ -43,11 +70,12 @@
                                         amet ndiam elitr ipsum diam
                                     </p>
                                     <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
-                                        href="#">Shop Now</a>
+                                    href="{{ !is_null($category_women) && !is_null($subcategory_women) ? route('home.shop.index', ['category' => $category_women, 'subcategory' => $subcategory_women]) : '#' }}">Shop
+                                    Now</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="carousel-item position-relative" style="height: 430px">
+                        {{-- <div class="carousel-item position-relative" style="height: 430px">
                             <img class="position-absolute w-100 h-100" src="{{ asset('alt_asset/img/carousel-3.jpg') }}"
                                 style="object-fit: cover" />
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
@@ -64,7 +92,7 @@
                                         href="#">Shop Now</a>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -131,7 +159,7 @@
         <div class="row px-xl-5 pb-3">
             @foreach ($categories as $category)
                 <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                    <a class="text-decoration-none" href="">
+                    <a class="text-decoration-none" href="{{ route('home.shop.index', ['category' => $category->id]) }}">
                         <div class="cat-item d-flex align-items-center mb-4">
                             <div class="overflow-hidden" style="width: 100px; height: 100%;">
                                 <img class="img-fluid" src="{{ asset('/uploads/categories/' . $category->image) }}"
@@ -152,7 +180,7 @@
 
     <!-- Products Start -->
     {{-- <div class="container-fluid pt-5 pb-3"> --}}
-        {{-- <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-5">
+    {{-- <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-5">
             <span class="bg-secondary pr-3">Featured Products</span>
         </h2>
         <div class="row px-xl-5">'
@@ -161,17 +189,17 @@
             @endforeach
 
         </div> --}}
-        <div class="container-fluid pt-5 pb-3">
-            <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
-                <span class="bg-secondary pr-3">Featured Products</span>
-            </h2>
-            <div class="row px-xl-5">
-                @foreach ($promoted_products as $product)
-                    @include('client.blade_helpers.item', ['product' => $product])
-                @endforeach
+    <div class="container-fluid pt-5 pb-3">
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+            <span class="bg-secondary pr-3">Featured Products</span>
+        </h2>
+        <div class="row px-xl-5">
+            @foreach ($promoted_products as $product)
+                @include('client.blade_helpers.item', ['product' => $product])
+            @endforeach
 
-            </div>
         </div>
+    </div>
     {{-- </div> --}}
     <!-- Products End -->
 
@@ -223,9 +251,13 @@
                 <div class="owl-carousel vendor-carousel">
                     @if (count($brands) !== 0)
                         @foreach ($brands as $brand)
-                            <div class="bg-light p-4" style="height: 150px; display:flex; justify-content:center; align-items:center">
-                                <img style="height: 100%; object-fit:contain;" src="{{ '/uploads/brands/' . $brand->image }}" alt="{{ $brand->name }}" />
-                            </div>
+                            <a href="{{ route('home.shop.index', ['brand' => $brand->id]) }}">
+                                <div class="bg-light p-4"
+                                    style="height: 150px; display:flex; justify-content:center; align-items:center">
+                                    <img style="height: 100%; object-fit:contain;"
+                                        src="{{ '/uploads/brands/' . $brand->image }}" alt="{{ $brand->name }}" />
+                                </div>
+                            </a>
                         @endforeach
                     @endif
                     {{-- <div class="bg-light p-4">

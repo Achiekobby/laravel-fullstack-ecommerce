@@ -13,8 +13,19 @@ class ShopController extends Controller
      */
     public function index()
     {
-        //* pagination
-        $shop_products = Product::orderBy('created_at', 'DESC')->paginate(9);
+        $category = request()->input('category') ?? null;
+        $brand = request()->input('brand') ?? null;
+        $subcategory = request()->input('subcategory') ?? null;
+
+        if (!is_null($category) && is_null($subcategory)) {
+            $shop_products = Product::where('category_id', $category)->orderBy('created_at', 'DESC')->paginate(9);
+        } elseif (!is_null($category) && !is_null($subcategory)) {
+            $shop_products = Product::where('category_id', $category)->where('subcategory_id', $subcategory)->orderBy('created_at', 'DESC')->paginate(9);
+        } elseif (!is_null($brand)) {
+            $shop_products = Product::where('brand_id', $brand)->orderBy('created_at', 'DESC')->paginate(9);
+        } else {
+            $shop_products = Product::orderBy('created_at', 'DESC')->paginate(9);
+        }
         return view('client.shop', ['products' => $shop_products]);
     }
 
@@ -46,11 +57,11 @@ class ShopController extends Controller
             }
             //* related products
             $related_products = Product::query()->where('category_id', $product->category_id)
-                                                ->where('id', '!=', $product->id)
-                                                ->where('status', 'active')
-                                                ->inRandomOrder()
-                                                ->limit(6)
-                                                ->get();
+                ->where('id', '!=', $product->id)
+                ->where('status', 'active')
+                ->inRandomOrder()
+                ->limit(6)
+                ->get();
 
             return view('client.product_details', ['product' => $product, 'related_products' => $related_products]);
 

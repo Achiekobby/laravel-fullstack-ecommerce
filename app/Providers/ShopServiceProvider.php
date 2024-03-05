@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Http\Resources\Client\CategoryResource;
+use App\Models\General\Brand;
+use App\Models\General\Category;
 use App\Models\General\Product;
 use Illuminate\Support\Facades;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
 
@@ -26,13 +28,29 @@ class ShopServiceProvider extends ServiceProvider
         Facades\View::composer('client.shop', function (View $view) {
 
             // dd($this->fetch_price_range_count([100,200]));
+            $categories_with_products = Category::with('products')->get();
+            $all_count = 0;
+            foreach ($categories_with_products as $category) {
+                $all_count += $category->products->count();
+            }
+
+            //* for brand
+            $brand_with_products = Brand::with('products')->get();
+            $all_brands = 0;
+            foreach($brand_with_products as $brand){
+                $all_brands += $brand->products->count();
+            }
             $view->with([
-                "price_all_count" => $this->fetch_price_range_count(null),
-                "price_one_count" => $this->fetch_price_range_count([0, 100]),
-                "price_two_count" => $this->fetch_price_range_count([100, 200]),
+                "price_all_count"   => $this->fetch_price_range_count(null),
+                "price_one_count"   => $this->fetch_price_range_count([0, 100]),
+                "price_two_count"   => $this->fetch_price_range_count([100, 200]),
                 "price_three_count" => $this->fetch_price_range_count([200, 300]),
-                "price_four_count" => $this->fetch_price_range_count([300, 400]),
-                "price_five_count" => $this->fetch_price_range_count([400, null]),
+                "price_four_count"  => $this->fetch_price_range_count([300, 400]),
+                "price_five_count"  => $this->fetch_price_range_count([400, null]),
+                "categories"        => CategoryResource::collection($categories_with_products),
+                'all_count'         => $all_count,
+                "brands"            =>$brand_with_products,
+                "all_brands"        =>$all_brands,
             ]);
         });
     }

@@ -25,35 +25,35 @@
                         price</span></h5>
                 <div class="bg-light p-4 mb-30">
                     <form>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" checked id="price-all">
+                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" class="custom-control-input" name="price_range" id="price-all">
                             <label class="custom-control-label" for="price-all">All Price</label>
-                            <span class="badge border font-weight-normal">1000</span>
+                            <span class="badge badge-primary border font-weight-normal">{{$price_all_count}}</span>
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-1">
-                            <label class="custom-control-label" for="price-1">$0 - $100</label>
-                            <span class="badge border font-weight-normal">150</span>
+                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" class="custom-control-input" name="price_range" id="price-1">
+                            <label class="custom-control-label" for="price-1">GHS.0 - GHS.100</label>
+                            <span class="badge badge-primary border font-weight-normal">{{$price_one_count}}</span>
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-2">
-                            <label class="custom-control-label" for="price-2">$100 - $200</label>
-                            <span class="badge border font-weight-normal">295</span>
+                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" class="custom-control-input" name="price_range" id="price-2">
+                            <label class="custom-control-label" for="price-2">GHS.100 - GHS.200</label>
+                            <span class="badge badge-primary border font-weight-normal">{{$price_two_count}}</span>
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-3">
-                            <label class="custom-control-label" for="price-3">$200 - $300</label>
-                            <span class="badge border font-weight-normal">246</span>
+                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" class="custom-control-input" name="price_range" id="price-3">
+                            <label class="custom-control-label" for="price-3">GHS.200 - GHS.300</label>
+                            <span class="badge badge-primary border font-weight-normal">{{$price_three_count}}</span>
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                            <input type="checkbox" class="custom-control-input" id="price-4">
-                            <label class="custom-control-label" for="price-4">$300 - $400</label>
-                            <span class="badge border font-weight-normal">145</span>
+                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
+                            <input type="radio" class="custom-control-input" name="price_range" id="price-4">
+                            <label class="custom-control-label" for="price-4">GHS.300 - GHS.400</label>
+                            <span class="badge badge-primary border font-weight-normal">{{$price_four_count}}</span>
                         </div>
-                        <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                            <input type="checkbox" class="custom-control-input" id="price-5">
-                            <label class="custom-control-label" for="price-5">$400 - $500</label>
-                            <span class="badge border font-weight-normal">168</span>
+                        <div class="custom-control custom-radio d-flex align-items-center justify-content-between">
+                            <input type="radio" class="custom-control-input" name="price_range" id="price-5">
+                            <label class="custom-control-label" for="price-5">Above GHS.400</label>
+                            <span class="badge badge-primary border font-weight-normal">{{$price_five_count}}</span>
                         </div>
                     </form>
                 </div>

@@ -93,4 +93,7 @@ class ShopController extends Controller
     {
         //
     }
+
+    //* HELPER METHODS
+    
 }

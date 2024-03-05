@@ -16,14 +16,15 @@
             <a class="h6 text-decoration-none text-truncate"
                 href="{{ route('shop.product.show', ['slug' => $product->slug]) }}">{{ strlen($product->name) > 20 ? substr($product->name, 0, 20) . '...' : $product->name }}</a>
             <div class="d-flex align-items-center justify-content-center mt-2">
-                @if ($product->sales_price !== '0.00')
-                    <h5>GHS.{{ $product->sales_price }}</h5>
+                @if ($product->sales_price !== '0')
+
+                    <h5>GHS.{{ number_format((float)$product->sales_price,2,'.','') }}</h5>
                 @else
-                    <h5>GHS.{{ $product->regular_price }}</h5>
+                    <h5>GHS.{{ number_format((float)$product->regular_price,2,'.','') }}</h5>
                 @endif
                 <h6 class="text-muted ml-2">
-                    @if ($product->sales_price !== '0.00' && !is_null($product->sales_price))
-                        <del>GHS.{{ $product->regular_price }}</del>
+                    @if ($product->sales_price !== '0' && !is_null($product->sales_price))
+                        <del>GHS.{{ number_format((float)$product->regular_price,2,'.','') }}</del>
                     @endif
                 </h6>
             </div>

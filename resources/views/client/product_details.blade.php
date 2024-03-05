@@ -51,14 +51,14 @@
                         <small class="pt-1">(99 Reviews)</small>
                     </div>
                     <div class="d-flex align-items-center justify-content-start mt-2">
-                        @if ($product->sales_price !== '0.00' && !is_null($product->sales_price))
-                            <h3>GHS.{{ $product->sales_price }}</h3>
+                        @if (($product->sales_price != '0.00'  || $product->sales_price !="0") && !is_null($product->sales_price))
+                            <h3>GHS.{{ number_format((float)$product->sales_price,2,'.','') }}</h3>
                         @else
-                            <h3>GHS.{{ $product->regular_price }}</h3>
+                            <h3>GHS.{{ number_format((float)$product->regular_price,2,'.','') }}</h3>
                         @endif
                         <h4 class="text-muted ml-2">
-                            @if ($product->sales_price !== '0.00' && !is_null($product->sales_price))
-                                <del>GHS.{{ $product->regular_price }}</del>
+                            @if (($product->sales_price != '0.00' || $product->sales_price !="0") && !is_null($product->sales_price))
+                                <del>GHS.{{ number_format((float)$product->regular_price,2,'.','') }}</del>
                             @endif
                         </h4>
                     </div>
